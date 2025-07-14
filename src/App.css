@@ -822,3 +822,380 @@
     font-size: 2rem;
   }
 }
+
+/* Form Row Styles */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-row input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Enhanced Property Card Styles */
+.property-location {
+  color: #607d8b;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.property-description {
+  color: #455a64;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.property-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.feature-tag {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.view-all-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-all-button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.view-all-button:hover {
+  background: #2980b9;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  background: #fff;
+  padding: 4rem 0;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+  border-left: 4px solid #3498db;
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.testimonial-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-info h4 {
+  margin: 0 0 0.2rem 0;
+  color: #2d3e50;
+  font-size: 1.1rem;
+}
+
+.testimonial-location {
+  color: #607d8b;
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.testimonial-rating {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.star {
+  font-size: 0.9rem;
+}
+
+.testimonial-text {
+  color: #455a64;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.testimonial-property {
+  color: #3498db;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Enhanced Realtor Card Styles */
+.realtor-experience {
+  color: #3498db;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.realtor-specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.specialty-tag {
+  background: #e8f5e8;
+  color: #2e7d32;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.realtor-bio {
+  color: #455a64;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.realtor-contact {
+  margin-top: 1rem;
+}
+
+.realtor-contact p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+/* Enhanced Footer Styles */
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.footer-section p {
+  color: #bdc3c7;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section button {
+  background: none;
+  border: none;
+  color: #bdc3c7;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.footer-section button:hover {
+  color: #3498db;
+}
+
+.footer-bottom {
+  border-top: 1px solid #34495e;
+  padding-top: 1rem;
+  text-align: center;
+  color: #95a5a6;
+}
+
+/* Responsive adjustments for new elements */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .form-row input {
+    margin-bottom: 1rem;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+/* Buy/Sell Form Styles */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+  overflow: hidden;
+}
+
+.form-header {
+  background: linear-gradient(135deg, #2d3e50 0%, #3498db 100%);
+  color: #fff;
+  padding: 2rem;
+  text-align: center;
+}
+
+.form-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.form-header p {
+  margin: 0 0 1.5rem 0;
+  color: #ecf0f1;
+  font-size: 1.1rem;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.buy-sell-form {
+  padding: 2rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.form-section h3 {
+  color: #2d3e50;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.buy-sell-form input,
+.buy-sell-form select,
+.buy-sell-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.buy-sell-form input:focus,
+.buy-sell-form select:focus,
+.buy-sell-form textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.buy-sell-form input::placeholder,
+.buy-sell-form textarea::placeholder {
+  color: #95a5a6;
+}
+
+.buy-sell-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.buy-sell-form .form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.buy-sell-form .form-row input,
+.buy-sell-form .form-row select {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments for buy/sell forms */
+@media (max-width: 768px) {
+  .buy-sell-form {
+    padding: 1rem;
+  }
+  
+  .form-header {
+    padding: 1.5rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .buy-sell-form .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .buy-sell-form .form-row input,
+  .buy-sell-form .form-row select {
+    margin-bottom: 1rem;
+  }
+}

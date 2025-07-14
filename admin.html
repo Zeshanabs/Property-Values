@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Values - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f6fa;
+            color: #2d3e50;
+        }
+
+        .admin-header {
+            background: #2d3e50;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-header p {
+            color: #bdc3c7;
+            font-size: 1.1rem;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #607d8b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #3498db;
+            border-bottom-color: #3498db;
+        }
+
+        .tab:hover {
+            color: #3498db;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .submissions-table {
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+            overflow: hidden;
+        }
+
+        .submissions-table th,
+        .submissions-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .submissions-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2d3e50;
+        }
+
+        .submissions-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .submission-details {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+        }
+
+        .submission-details h3 {
+            color: #2d3e50;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #2d3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            color: #455a64;
+        }
+
+        .no-submissions {
+            text-align: center;
+            padding: 3rem;
+            color: #607d8b;
+            font-size: 1.2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #607d8b;
+            font-size: 1rem;
+        }
+
+        .refresh-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: background 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                text-align: center;
+            }
+            
+            .submissions-table {
+                font-size: 0.9rem;
+            }
+            
+            .submissions-table th,
+            .submissions-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>🏠 Property Values</h1>
+        <p>Admin Dashboard - Customer Form Submissions</p>
+    </div>
+
+    <div class="admin-container">
+        <button class="refresh-btn" onclick="refreshData()">🔄 Refresh Data</button>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="buyCount">0</div>
+                <div class="stat-label">Buy Form Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="sellCount">0</div>
+                <div class="stat-label">Sell Form Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('buy')">🏠 Buy Form Submissions</button>
+            <button class="tab" onclick="showTab('sell')">💰 Sell Form Submissions</button>
+        </div>
+
+        <div id="buy-tab" class="tab-content active">
+            <div class="submissions-table">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Budget</th>
+                            <th>Property Type</th>
+                            <th>Timeline</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="buy-submissions-table">
+                        <tr>
+                            <td colspan="9" class="no-submissions">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="sell-tab" class="tab-content">
+            <div class="submissions-table">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Property Address</th>
+                            <th>Estimated Value</th>
+                            <th>Timeline</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sell-submissions-table">
+                        <tr>
+                            <td colspan="9" class="no-submissions">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="submission-details" class="submission-details" style="display: none;">
+            <h3>Submission Details</h3>
+            <div id="details-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let buySubmissions = [];
+        let sellSubmissions = [];
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function refreshData() {
+            fetchBuySubmissions();
+            fetchSellSubmissions();
+        }
+
+        function fetchBuySubmissions() {
+            fetch('http://localhost:3001/api/admin/buy-submissions')
+                .then(response => response.json())
+                .then(data => {
+                    buySubmissions = data;
+                    displayBuySubmissions();
+                    updateStats();
+                })
+                .catch(error => {
+                    console.error('Error fetching buy submissions:', error);
+                    document.getElementById('buy-submissions-table').innerHTML = 
+                        '<tr><td colspan="9" class="no-submissions">Error loading data</td></tr>';
+                });
+        }
+
+        function fetchSellSubmissions() {
+            fetch('http://localhost:3001/api/admin/sell-submissions')
+                .then(response => response.json())
+                .then(data => {
+                    sellSubmissions = data;
+                    displaySellSubmissions();
+                    updateStats();
+                })
+                .catch(error => {
+                    console.error('Error fetching sell submissions:', error);
+                    document.getElementById('sell-submissions-table').innerHTML = 
+                        '<tr><td colspan="9" class="no-submissions">Error loading data</td></tr>';
+                });
+        }
+
+        function displayBuySubmissions() {
+            const tableBody = document.getElementById('buy-submissions-table');
+            
+            if (buySubmissions.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="9" class="no-submissions">No buy form submissions yet</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = buySubmissions.map(submission => `
+                <tr>
+                    <td>${submission.id}</td>
+                    <td>${submission.firstName} ${submission.lastName}</td>
+                    <td>${submission.email}</td>
+                    <td>${submission.phone}</td>
+                    <td>${submission.budget}</td>
+                    <td>${submission.propertyType}</td>
+                    <td>${submission.timeline}</td>
+                    <td>${new Date(submission.submissionDate).toLocaleDateString()}</td>
+                    <td>
+                        <button onclick="viewSubmissionDetails('buy', ${submission.id})" style="background: #3498db; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">View Details</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function displaySellSubmissions() {
+            const tableBody = document.getElementById('sell-submissions-table');
+            
+            if (sellSubmissions.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="9" class="no-submissions">No sell form submissions yet</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = sellSubmissions.map(submission => `
+                <tr>
+                    <td>${submission.id}</td>
+                    <td>${submission.firstName} ${submission.lastName}</td>
+                    <td>${submission.email}</td>
+                    <td>${submission.phone}</td>
+                    <td>${submission.propertyAddress}</td>
+                    <td>${submission.estimatedValue}</td>
+                    <td>${submission.timeline}</td>
+                    <td>${new Date(submission.submissionDate).toLocaleDateString()}</td>
+                    <td>
+                        <button onclick="viewSubmissionDetails('sell', ${submission.id})" style="background: #3498db; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">View Details</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function viewSubmissionDetails(type, id) {
+            const submissions = type === 'buy' ? buySubmissions : sellSubmissions;
+            const submission = submissions.find(s => s.id === id);
+            
+            if (!submission) return;
+
+            const detailsContent = document.getElementById('details-content');
+            let detailsHTML = '';
+
+            if (type === 'buy') {
+                detailsHTML = `
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Full Name</div>
+                            <div class="detail-value">${submission.firstName} ${submission.lastName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${submission.email}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Phone</div>
+                            <div class="detail-value">${submission.phone}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Address</div>
+                            <div class="detail-value">${submission.address}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">City</div>
+                            <div class="detail-value">${submission.city}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">State</div>
+                            <div class="detail-value">${submission.state}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ZIP Code</div>
+                            <div class="detail-value">${submission.zipCode}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Budget</div>
+                            <div class="detail-value">${submission.budget}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Property Type</div>
+                            <div class="detail-value">${submission.propertyType}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Bedrooms</div>
+                            <div class="detail-value">${submission.bedrooms}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Bathrooms</div>
+                            <div class="detail-value">${submission.bathrooms}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Timeline</div>
+                            <div class="detail-value">${submission.timeline}</div>
+                        </div>
+                    </div>
+                    ${submission.additionalInfo ? `
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <div class="detail-label">Additional Information</div>
+                            <div class="detail-value">${submission.additionalInfo}</div>
+                        </div>
+                    ` : ''}
+                `;
+            } else {
+                detailsHTML = `
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Full Name</div>
+                            <div class="detail-value">${submission.firstName} ${submission.lastName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${submission.email}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Phone</div>
+                            <div class="detail-value">${submission.phone}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Property Address</div>
+                            <div class="detail-value">${submission.propertyAddress}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">City</div>
+                            <div class="detail-value">${submission.city}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">State</div>
+                            <div class="detail-value">${submission.state}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ZIP Code</div>
+                            <div class="detail-value">${submission.zipCode}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Property Type</div>
+                            <div class="detail-value">${submission.propertyType}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Bedrooms</div>
+                            <div class="detail-value">${submission.bedrooms}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Bathrooms</div>
+                            <div class="detail-value">${submission.bathrooms}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Square Footage</div>
+                            <div class="detail-value">${submission.squareFootage}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Year Built</div>
+                            <div class="detail-value">${submission.yearBuilt}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Estimated Value</div>
+                            <div class="detail-value">${submission.estimatedValue}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Timeline</div>
+                            <div class="detail-value">${submission.timeline}</div>
+                        </div>
+                    </div>
+                    ${submission.additionalInfo ? `
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <div class="detail-label">Additional Information</div>
+                            <div class="detail-value">${submission.additionalInfo}</div>
+                        </div>
+                    ` : ''}
+                `;
+            }
+
+            detailsContent.innerHTML = detailsHTML;
+            document.getElementById('submission-details').style.display = 'block';
+            
+            // Scroll to details
+            document.getElementById('submission-details').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateStats() {
+            document.getElementById('buyCount').textContent = buySubmissions.length;
+            document.getElementById('sellCount').textContent = sellSubmissions.length;
+            document.getElementById('totalCount').textContent = buySubmissions.length + sellSubmissions.length;
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshData();
+        });
+    </script>
+</body>
+</html> 
